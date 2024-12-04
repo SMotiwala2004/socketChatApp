@@ -61,6 +61,7 @@ public class Server {
 
         @Override
         public void run() {
+
             try {
                 Username = getUsername();
                 System.out.println("User [" + Username +"] has connected!");
@@ -74,8 +75,8 @@ public class Server {
                     broadcast("[" + Username + "]: " + inputLine, this );
                 }
                 // Remove client handler from list
-
                 clients.remove(this);
+                
                 //Close I/O and Socket
                 in.close();
                 out.close();
