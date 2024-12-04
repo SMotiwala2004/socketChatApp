@@ -16,7 +16,7 @@ public class Server {
     public static void main(String[] args) {
         try {
             ServerSocket serverSocket = new ServerSocket(PORT);
-            System.out.println("Serer is up and running.");
+            System.out.println("Server is up and running.");
 
             // Accept incoming messages
             while (true) { 
