@@ -36,6 +36,7 @@ public class Server {
         private BufferedReader in;
         private String Username;
 
+        // Client Handler constructer
         public ClientHandler(Socket socket) {
             this.clientSocket = socket;
             
@@ -48,11 +49,22 @@ public class Server {
             }
         }
 
-
         @Override
         public void run() {
-            throw new UnsupportedOperationException("Unimplemented method 'run'");
+            try {
+                
+            } catch (Exception e) {
+            }
         }
 
+        private String getUsername() throws IOException {
+            out.println("What is your username?");
+            return in.readLine();
+        }
+
+        public void sendMessage(String message) {
+            out.println(message);
+            out.println("What is your message?");
+        }
     }
 }
