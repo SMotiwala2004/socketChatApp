@@ -10,10 +10,10 @@ public class Client {
         try {
             // Create Socket
             Socket s = new Socket("localhost", 9000);
-            System.err.println("Connected to the chat server!");
+            System.out.println("Connected to the chat server!");
 
             // Setup input and output readers
-            PrintWriter out = new PrintWriter(s.getOutputStream());
+            PrintWriter out = new PrintWriter(s.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));            
 
             // Start Thread to handle incoming messages
