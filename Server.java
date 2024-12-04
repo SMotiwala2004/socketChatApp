@@ -22,8 +22,12 @@ public class Server {
             while (true) { 
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("New Client has connected: " + clientSocket);
+
+                // Create a new Client Handler for the Client
+                ClientHandler clientHandler = new ClientHandler(clientSocket);
+                clients.add(clientHandler);
+                new Thread(clientHandler).start();
             }
-            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,8 +73,16 @@ public class Server {
                     
                     broadcast("[" + Username + "]: " + inputLine, this );
                 }
+                // Remove client handler from list
+
+                clients.remove(this);
+                //Close I/O and Socket
+                in.close();
+                out.close();
+                clientSocket.close();
                 
-            } catch (Exception e) {
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
@@ -84,7 +96,5 @@ public class Server {
             out.println(message);
             out.println("What is your message?");
         }
-
-
     }
 }
