@@ -30,6 +30,12 @@ public class Server {
         
     }
 
+    private static void broadcast(String message, ClientHandler sender) {
+        for(ClientHandler client : clients) {
+            client.sendMessage(message);
+        }
+    }
+
     private static class ClientHandler implements Runnable {
         private Socket clientSocket;
         private PrintWriter out;
@@ -52,19 +58,33 @@ public class Server {
         @Override
         public void run() {
             try {
+                Username = getUsername();
+                System.out.println("User [" + Username +"] has connected!");
+                out.println("Welcome to the chat " + Username + "!");
+                out.println("Type your message below");
+                String inputLine;
+               
+                while((inputLine = in.readLine()) != null) {
+                    System.out.println("[" + Username + "]: " + inputLine );
+                    
+                    broadcast("[" + Username + "]: " + inputLine, this );
+                }
                 
             } catch (Exception e) {
             }
         }
 
+        // Get Username Method
         private String getUsername() throws IOException {
             out.println("What is your username?");
             return in.readLine();
         }
-
+        // Send Message method
         public void sendMessage(String message) {
             out.println(message);
             out.println("What is your message?");
         }
+
+
     }
 }
