@@ -1,6 +1,7 @@
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server {
@@ -13,6 +14,12 @@ public class Server {
         try {
             ServerSocket serverSocket = new ServerSocket(PORT);
             System.out.println("Serer is up and running.");
+
+            // Accept incoming messages
+            while (true) { 
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("New Client has connected: " + clientSocket);
+            }
             
         } catch (IOException e) {
             e.printStackTrace();
