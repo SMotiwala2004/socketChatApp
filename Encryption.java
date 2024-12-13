@@ -10,20 +10,20 @@ public class Encryption {
     static SecretKey key;
     static byte[] cipherText;
     
-    public static void encrypt(String message) throws Exception {
+    public static byte[] encrypt(byte[] encryptedMessage) throws Exception {
     
-        KeyGenerator.getInstance("AES"); 
+        keyGen = KeyGenerator.getInstance("AES"); 
         keyGen.init(128);
-        keyGen.generateKey();
-        Cipher.getInstance("AES");
-        cipher.init(cipher.ENCRYPT_MODE, key);
-        cipherText = cipher.doFinal(message.getBytes());
+        key = keyGen.generateKey();
+        cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        return cipherText = cipher.doFinal(encryptedMessage);
     }
 
     public static void decrypt() throws Exception {
-
         cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] decipherText = cipher.doFinal(cipherText);
+        byte[] decipheredBytes = cipher.doFinal(cipherText);
+        String decipheredText = new String(decipheredBytes);
 
     }
 }

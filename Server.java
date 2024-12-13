@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Base64;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server {
@@ -12,6 +13,7 @@ public class Server {
     // CopyOnWriteArrayList allows multiple clients to be handled appropriately
     static final int PORT = 9000;
     static CopyOnWriteArrayList<ClientHandler> clients = new CopyOnWriteArrayList<>();
+    static String encodedMessage;
 
     public static void main(String[] args) {
         try {
@@ -31,11 +33,12 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+  
     }
 
-    private static void broadcast(String message, ClientHandler sender) {
+    private static void broadcast(String message, ClientHandler sender) throws Exception {
         for(ClientHandler client : clients) {
+            message = Base64.getDecoder().decode(encodedMessage);
             client.sendMessage(message);
         }
     }
@@ -70,10 +73,12 @@ public class Server {
                 String inputLine;
                
                 while((inputLine = in.readLine()) != null) {
-                    Encryption.encrypt(inputLine);
-                    System.out.println("[" + Username + "]: " + inputLine );
+                    byte[] encryptedMessage = Encryption.encrypt(inputLine.getBytes());
+                    encodedMessage = Base64.getEncoder().encodeToString(encryptedMessage);
+
+                    System.out.println("[" + Username + "]: " + encodedMessage );
                     
-                    broadcast("[" + Username + "]: " + inputLine, this );
+                    broadcast("[" + Username + "]: " + encodedMessage, this );
                 }
                 // Remove client handler from list
                 clients.remove(this);
