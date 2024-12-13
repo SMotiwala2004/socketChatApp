@@ -70,19 +70,20 @@ public class Server {
                 String inputLine;
                
                 while((inputLine = in.readLine()) != null) {
+                    Encryption.encrypt(inputLine);
                     System.out.println("[" + Username + "]: " + inputLine );
                     
                     broadcast("[" + Username + "]: " + inputLine, this );
                 }
                 // Remove client handler from list
                 clients.remove(this);
-                
+
                 //Close I/O and Socket
                 in.close();
                 out.close();
                 clientSocket.close();
                 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
