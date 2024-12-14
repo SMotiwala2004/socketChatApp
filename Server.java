@@ -14,6 +14,7 @@ public class Server {
     static final int PORT = 9000;
     static CopyOnWriteArrayList<ClientHandler> clients = new CopyOnWriteArrayList<>();
     static String encodedMessage;
+    static String decodedMessage;
 
     public static void main(String[] args) {
         try {
@@ -38,7 +39,6 @@ public class Server {
 
     private static void broadcast(String message, ClientHandler sender) throws Exception {
         for(ClientHandler client : clients) {
-            message = Base64.getDecoder().decode(encodedMessage);
             client.sendMessage(message);
         }
     }
@@ -78,7 +78,7 @@ public class Server {
 
                     System.out.println("[" + Username + "]: " + encodedMessage );
                     
-                    broadcast("[" + Username + "]: " + encodedMessage, this );
+                    broadcast("[" + Username + "]: " + Encryption.decrypt(encodedMessage), this );
                 }
                 // Remove client handler from list
                 clients.remove(this);
